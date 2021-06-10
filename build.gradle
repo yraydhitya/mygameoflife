@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+version = '0.1.0'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.+'
+}
+
+application {
+    mainClassName = 'mygameoflife.Main'
+}
