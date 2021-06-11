@@ -30,7 +30,59 @@ public class Universe {
             }
         }
 
+        Collection<Cell> expandLeft = expandLeft();
+        if (!expandLeft.isEmpty()) {
+            cells.addAll(expandLeft);
+        }
+
+        Collection<Cell> expandRight = expandRight();
+        if (!expandRight.isEmpty()) {
+            cells.addAll(expandRight);
+        }
+
+        Collection<Cell> expandTop = expandTop();
+        if (!expandTop.isEmpty()) {
+            cells.addAll(expandTop);
+        }
+
+        Collection<Cell> expandBottom = expandBottom();
+        if (!expandBottom.isEmpty()) {
+            cells.addAll(expandBottom);
+        }
+
         return Universe.of(cells);
+    }
+
+    private Collection<Cell> expandLeft() {
+        Collection<Cell> cells = new HashSet<>();
+        for (int row = smallestRow; row <= biggestRow; row++) {
+            cells.add(get(row, smallestCol - 1).generate(getNeighbors(row, smallestCol - 1)));
+        }
+        return aliveCells(cells);
+    }
+
+    private Collection<Cell> expandRight() {
+        Collection<Cell> cells = new HashSet<>();
+        for (int row = smallestRow; row <= biggestRow; row++) {
+            cells.add(get(row, biggestCol + 1).generate(getNeighbors(row, biggestCol + 1)));
+        }
+        return aliveCells(cells);
+    }
+
+    private Collection<Cell> expandTop() {
+        Collection<Cell> cells = new HashSet<>();
+        for (int col = smallestCol; col <= biggestCol; col++) {
+            cells.add(get(smallestRow - 1, col).generate(getNeighbors(smallestRow - 1, col)));
+        }
+        return aliveCells(cells);
+    }
+
+    private Collection<Cell> expandBottom() {
+        Collection<Cell> cells = new HashSet<>();
+        for (int col = smallestCol; col <= biggestCol; col++) {
+            cells.add(get(biggestRow + 1, col).generate(getNeighbors(biggestRow + 1, col)));
+        }
+        return aliveCells(cells);
     }
 
     public Cell get(int row, int col) {
@@ -118,11 +170,15 @@ public class Universe {
         if (getClass() != obj.getClass())
             return false;
         Universe other = (Universe) obj;
-        return biggestCol == other.biggestCol && biggestRow == other.biggestRow && Objects.equals(aliveCells(), other.aliveCells())
+        return biggestCol == other.biggestCol && biggestRow == other.biggestRow && Objects.equals(aliveCells(cells), other.aliveCells(other.cells))
                 && smallestCol == other.smallestCol && smallestRow == other.smallestRow;
     }
 
     private Set<Cell> aliveCells() {
+        return cells.stream().filter(Cell::isAlive).collect(Collectors.toSet());
+    }
+
+    private Set<Cell> aliveCells(Collection<Cell> cells) {
         return cells.stream().filter(Cell::isAlive).collect(Collectors.toSet());
     }
 }

@@ -38,4 +38,20 @@ public class UniverseFixture {
                 Cell.ofDead(4, 4)
             ));
     }
+
+    public static Universe glider1() {
+        return Universe.of(Set.of(
+                Cell.ofDead(0, 0), Cell.ofLive(0, 2),
+                Cell.ofLive(1, 0), Cell.ofLive(1, 2),
+                Cell.ofLive(2, 1), Cell.ofLive(2, 2)
+            ));
+    }
+
+    public static Universe glider2() {
+        return Universe.of(Set.of(
+                Cell.ofDead(0, 0), Cell.ofLive(0, 1),
+                Cell.ofLive(1, 2), Cell.ofLive(1, 3),
+                Cell.ofLive(2, 1), Cell.ofLive(2, 2)
+            ));
+    }
 }
