@@ -1,6 +1,7 @@
 package mygameoflife;
 
 import java.util.Collection;
+import java.util.Set;
 
 public class Universe {
     private final Collection<Cell> cells;
@@ -23,6 +24,14 @@ public class Universe {
                 .filter(cell -> cell.isPosition(row, col))
                 .findFirst()
                 .orElse(Cell.ofDead(row, col));
+    }
+
+    public Collection<Cell> getNeighbors(int row, int col) {
+        return Set.of(
+                get(row - 1, col - 1), get(row - 1, col), get(row - 1, col + 1),
+                get(row, col - 1), get(row, col + 1),
+                get(row + 1, col - 1), get(row + 1, col), get(row + 1, col + 1)
+            );
     }
 
     @Override

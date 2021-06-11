@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class UniverseTest {
@@ -91,5 +92,19 @@ public class UniverseTest {
                 ));
 
         assertEquals("XX \nX X\n XX\n", universe.toString());
+    }
+
+    @Test
+    public void getNeighbors() {
+        Universe universe = Universe.of(Set.of(Cell.ofLive(0, 0)));
+
+        Collection<Cell> expectedNeighbors =
+                Set.of(
+                        Cell.ofDead(-1, -1), Cell.ofDead(-1, 0), Cell.ofDead(-1, 1),
+                        Cell.ofDead(0, -1), Cell.ofDead(0, 1),
+                        Cell.ofDead(1, -1), Cell.ofDead(1, 0), Cell.ofDead(1, 1)
+                );
+
+        assertEquals(expectedNeighbors, universe.getNeighbors(0, 0));
     }
 }
