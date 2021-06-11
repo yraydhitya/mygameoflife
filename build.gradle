@@ -16,3 +16,6 @@ dependencies {
 application {
     mainClassName = 'mygameoflife.Main'
 }
+run {
+    standardInput = System.in
+}
