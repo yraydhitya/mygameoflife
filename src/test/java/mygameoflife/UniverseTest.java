@@ -115,4 +115,12 @@ public class UniverseTest {
         assertEquals(UniverseFixture.blinker1(), UniverseFixture.blinker1());
         assertEquals(UniverseFixture.blinker2(), UniverseFixture.blinker2());
     }
+
+    @Test
+    public void generate() {
+        assertEquals(UniverseFixture.block(), UniverseFixture.block().generate());
+        assertEquals(UniverseFixture.beeHive(), UniverseFixture.beeHive().generate());
+        assertEquals(UniverseFixture.blinker2(), UniverseFixture.blinker1().generate());
+        assertEquals(UniverseFixture.blinker1(), UniverseFixture.blinker2().generate());
+    }
 }

@@ -1,8 +1,10 @@
 package mygameoflife;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Universe {
     private final Collection<Cell> cells;
@@ -18,6 +20,17 @@ public class Universe {
         this.biggestRow = biggestRow();
         this.smallestCol = smallestCol();
         this.biggestCol = biggestCol();
+    }
+
+    public Universe generate() {
+        Collection<Cell> cells = new HashSet<>();
+        for (int row = smallestRow; row <= biggestRow; row++) {
+            for (int col = smallestCol; col <= biggestCol; col++) {
+                cells.add(get(row, col).generate(getNeighbors(row, col)));
+            }
+        }
+
+        return Universe.of(cells);
     }
 
     public Cell get(int row, int col) {
@@ -105,7 +118,11 @@ public class Universe {
         if (getClass() != obj.getClass())
             return false;
         Universe other = (Universe) obj;
-        return biggestCol == other.biggestCol && biggestRow == other.biggestRow && Objects.equals(cells, other.cells)
+        return biggestCol == other.biggestCol && biggestRow == other.biggestRow && Objects.equals(aliveCells(), other.aliveCells())
                 && smallestCol == other.smallestCol && smallestRow == other.smallestRow;
+    }
+
+    private Set<Cell> aliveCells() {
+        return cells.stream().filter(Cell::isAlive).collect(Collectors.toSet());
     }
 }
