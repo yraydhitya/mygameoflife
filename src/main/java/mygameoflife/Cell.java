@@ -19,6 +19,14 @@ public abstract class Cell {
         this.col = col;
     }
 
+    public int getRow() {
+        return this.row;
+    }
+
+    public int getCol() {
+        return this.col;
+    }
+
     public boolean isPosition(int row, int col) {
         return isRow(row) && isCol(col);
     }

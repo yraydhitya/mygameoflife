@@ -13,7 +13,7 @@ public class CellTest {
     public void isPositionWhenRowAndColEqualShouldReturnTrue() {
         assertTrue(Cell.ofLive(0, 0).isPosition(0, 0));
     }
-    
+
     @Test
     public void isPositionWhenRowOrColNotEqualShouldReturnFalse() {
         assertFalse(Cell.ofLive(0, 0).isPosition(1, 0));
