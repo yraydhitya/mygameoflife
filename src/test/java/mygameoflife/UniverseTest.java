@@ -107,4 +107,12 @@ public class UniverseTest {
 
         assertEquals(expectedNeighbors, universe.getNeighbors(0, 0));
     }
+
+    @Test
+    public void equals() {
+        assertEquals(UniverseFixture.block(), UniverseFixture.block());
+        assertEquals(UniverseFixture.beeHive(), UniverseFixture.beeHive());
+        assertEquals(UniverseFixture.blinker1(), UniverseFixture.blinker1());
+        assertEquals(UniverseFixture.blinker2(), UniverseFixture.blinker2());
+    }
 }

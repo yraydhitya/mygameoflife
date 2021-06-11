@@ -1,6 +1,7 @@
 package mygameoflife;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 public class Universe {
@@ -88,5 +89,23 @@ public class Universe {
             }
         }
         return biggestCol;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(biggestCol, biggestRow, cells, smallestCol, smallestRow);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Universe other = (Universe) obj;
+        return biggestCol == other.biggestCol && biggestRow == other.biggestRow && Objects.equals(cells, other.cells)
+                && smallestCol == other.smallestCol && smallestRow == other.smallestRow;
     }
 }
