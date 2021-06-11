@@ -26,6 +26,8 @@ public abstract class Cell {
 
     protected abstract boolean isAlive();
 
+    public abstract Cell generate(Collection<Cell> neighbors);
+
     public int getRow() {
         return this.row;
     }
