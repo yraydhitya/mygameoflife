@@ -7,7 +7,28 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import java.util.Collection;
+import java.util.Set;
+
 public class CellTest {
+
+    @Test
+    public void aliveCoundShouldReturnTwoWhenNeighborsContainTwoLiveCells() {
+        Collection<Cell> neighbors =
+                Set.of(Cell.ofLive(0, 0), Cell.ofLive(0, 1), Cell.ofDead(0, 0), Cell.ofDead(0, 1));
+
+        assertEquals(2, Cell.ofLive(0, 0).aliveCount(neighbors));
+    }
+
+    @Test
+    public void isAliveShouldReturnTrueWhenLiveCell() {
+        assertTrue(Cell.ofLive(0, 0).isAlive());
+    }
+
+    @Test
+    public void isAliveShouldReturnFalseWhenDeadCell() {
+        assertFalse(Cell.ofDead(0, 0).isAlive());
+    }
 
     @Test
     public void isPositionWhenRowAndColEqualShouldReturnTrue() {

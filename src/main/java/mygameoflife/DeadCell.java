@@ -7,6 +7,11 @@ public class DeadCell extends Cell {
     }
 
     @Override
+    protected boolean isAlive() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return " ";
     }

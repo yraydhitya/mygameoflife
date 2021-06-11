@@ -1,5 +1,6 @@
 package mygameoflife;
 
+import java.util.Collection;
 import java.util.Objects;
 
 public abstract class Cell {
@@ -18,6 +19,12 @@ public abstract class Cell {
         this.row = row;
         this.col = col;
     }
+
+    public long aliveCount(Collection<Cell> cells) {
+        return cells.stream().filter(Cell::isAlive).count();
+    }
+
+    protected abstract boolean isAlive();
 
     public int getRow() {
         return this.row;
