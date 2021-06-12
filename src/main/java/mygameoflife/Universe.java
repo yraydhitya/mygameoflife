@@ -139,7 +139,7 @@ public class Universe {
         int smallestCol = firstCell.getCol();
         for (Cell cell : cells) {
             if (cell.getCol() < smallestCol) {
-                smallestCol = cell.getRow();
+                smallestCol = cell.getCol();
             }
         }
         return smallestCol;
