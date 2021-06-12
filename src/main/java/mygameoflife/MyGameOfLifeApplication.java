@@ -12,6 +12,7 @@ public class MyGameOfLifeApplication {
         System.out.println("2. Bee Hive");
         System.out.println("3. Blinker");
         System.out.println("4. Glider");
+        System.out.println("5. Spaceship");
         System.out.print("Please pick a number:");
 
         try (Scanner scanner = new Scanner(System.in)) {
@@ -41,6 +42,8 @@ public class MyGameOfLifeApplication {
                 return UniverseFixture.blinker1();
             case 4:
                 return UniverseFixture.glider1();
+            case 5:
+                return UniverseFixture.spaceship1();
             default:
                 throw new IllegalArgumentException("Number not recognized");
         }
