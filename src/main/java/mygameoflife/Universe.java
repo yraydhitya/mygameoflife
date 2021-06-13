@@ -170,12 +170,8 @@ public class Universe {
         if (getClass() != obj.getClass())
             return false;
         Universe other = (Universe) obj;
-        return biggestCol == other.biggestCol && biggestRow == other.biggestRow && Objects.equals(aliveCells(cells), other.aliveCells(other.cells))
+        return biggestCol == other.biggestCol && biggestRow == other.biggestRow && Objects.equals(cells, other.cells)
                 && smallestCol == other.smallestCol && smallestRow == other.smallestRow;
-    }
-
-    private Set<Cell> aliveCells() {
-        return cells.stream().filter(Cell::isAlive).collect(Collectors.toSet());
     }
 
     private Set<Cell> aliveCells(Collection<Cell> cells) {
