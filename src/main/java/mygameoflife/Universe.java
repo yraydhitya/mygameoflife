@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 public class Universe {
     private final Collection<Cell> cells;
-    private final int smallestRow, biggestRow, smallestCol, biggestCol;
     private final Cell smallestCell, biggestCell;
 
     public static Universe of(Collection<Cell> cells) {
@@ -18,10 +17,6 @@ public class Universe {
 
     private Universe(Collection<Cell> cells) {
         this.cells = cells;
-        this.smallestRow = smallestRow();
-        this.biggestRow = biggestRow();
-        this.smallestCol = smallestCol();
-        this.biggestCol = biggestCol();
         this.smallestCell = smallestCell();
         this.biggestCell = biggestCell();
     }
@@ -116,22 +111,6 @@ public class Universe {
         return stringBuilder.toString();
     }
 
-    private int smallestRow() {
-        return cells.stream().map(Cell::getRow).min(Comparator.naturalOrder()).get();
-    }
-
-    private int biggestRow() {
-        return cells.stream().map(Cell::getRow).max(Comparator.naturalOrder()).get();
-    }
-
-    private int smallestCol() {
-        return cells.stream().map(Cell::getCol).min(Comparator.naturalOrder()).get();
-    }
-
-    private int biggestCol() {
-        return cells.stream().map(Cell::getCol).max(Comparator.naturalOrder()).get();
-    }
-
     private Cell smallestCell() {
         return cells.stream().min(Comparator.naturalOrder()).get();
     }
@@ -140,9 +119,13 @@ public class Universe {
         return cells.stream().max(Comparator.naturalOrder()).get();
     }
 
+    private Set<Cell> aliveCells(Collection<Cell> cells) {
+        return cells.stream().filter(Cell::isAlive).collect(Collectors.toSet());
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(biggestCol, biggestRow, cells, smallestCol, smallestRow);
+        return Objects.hash(biggestCell, cells, smallestCell);
     }
 
     @Override
@@ -154,11 +137,7 @@ public class Universe {
         if (getClass() != obj.getClass())
             return false;
         Universe other = (Universe) obj;
-        return biggestCol == other.biggestCol && biggestRow == other.biggestRow && Objects.equals(cells, other.cells)
-                && smallestCol == other.smallestCol && smallestRow == other.smallestRow;
-    }
-
-    private Set<Cell> aliveCells(Collection<Cell> cells) {
-        return cells.stream().filter(Cell::isAlive).collect(Collectors.toSet());
+        return Objects.equals(biggestCell, other.biggestCell) && Objects.equals(cells, other.cells)
+                && Objects.equals(smallestCell, other.smallestCell);
     }
 }
