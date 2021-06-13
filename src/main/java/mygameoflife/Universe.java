@@ -54,7 +54,7 @@ public class Universe {
     private Collection<Cell> expandLeft() {
         Collection<Cell> cells = new HashSet<>();
         for (int row = smallestCell.getRow(); row <= biggestCell.getRow(); row++) {
-            cells.add(get(row, smallestCell.getCol() - 1).generate(getNeighbors(row, smallestCell.getCol() - 1)));
+            cells.add(get(row, smallestCell.previousCol()).generate(getNeighbors(row, smallestCell.previousCol())));
         }
         return cells;
     }
@@ -62,7 +62,7 @@ public class Universe {
     private Collection<Cell> expandRight() {
         Collection<Cell> cells = new HashSet<>();
         for (int row = smallestCell.getRow(); row <= biggestCell.getRow(); row++) {
-            cells.add(get(row, biggestCell.getCol() + 1).generate(getNeighbors(row, biggestCell.getCol() + 1)));
+            cells.add(get(row, biggestCell.nextCol()).generate(getNeighbors(row, biggestCell.nextCol())));
         }
         return cells;
     }
@@ -70,7 +70,7 @@ public class Universe {
     private Collection<Cell> expandTop() {
         Collection<Cell> cells = new HashSet<>();
         for (int col = smallestCell.getCol(); col <= biggestCell.getCol(); col++) {
-            cells.add(get(smallestCell.getRow() - 1, col).generate(getNeighbors(smallestCell.getRow() - 1, col)));
+            cells.add(get(smallestCell.previousRow(), col).generate(getNeighbors(smallestCell.previousRow(), col)));
         }
         return cells;
     }
@@ -78,7 +78,7 @@ public class Universe {
     private Collection<Cell> expandBottom() {
         Collection<Cell> cells = new HashSet<>();
         for (int col = smallestCell.getCol(); col <= biggestCell.getCol(); col++) {
-            cells.add(get(biggestCell.getRow() + 1, col).generate(getNeighbors(biggestCell.getRow() + 1, col)));
+            cells.add(get(biggestCell.nextRow(), col).generate(getNeighbors(biggestCell.nextRow(), col)));
         }
         return cells;
     }

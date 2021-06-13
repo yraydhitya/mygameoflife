@@ -36,6 +36,22 @@ public abstract class Cell implements Comparable<Cell>{
         return this.col;
     }
 
+    public int previousRow() {
+        return this.row - 1;
+    }
+
+    public int previousCol() {
+        return this.col - 1;
+    }
+
+    public int nextRow() {
+        return this.row + 1;
+    }
+
+    public int nextCol() {
+        return this.col + 1;
+    }
+
     public boolean isPosition(int row, int col) {
         return isRow(row) && isCol(col);
     }
