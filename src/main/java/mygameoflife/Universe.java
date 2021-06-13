@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 public class Universe {
     private final Collection<Cell> cells;
     private final int smallestRow, biggestRow, smallestCol, biggestCol;
+    private final Cell smallestCell, biggestCell;
 
     public static Universe of(Collection<Cell> cells) {
         return new Universe(cells);
@@ -21,12 +22,14 @@ public class Universe {
         this.biggestRow = biggestRow();
         this.smallestCol = smallestCol();
         this.biggestCol = biggestCol();
+        this.smallestCell = smallestCell();
+        this.biggestCell = biggestCell();
     }
 
     public Universe generate() {
         Collection<Cell> cells = new HashSet<>();
-        for (int row = smallestRow; row <= biggestRow; row++) {
-            for (int col = smallestCol; col <= biggestCol; col++) {
+        for (int row = smallestCell.getRow(); row <= biggestCell.getRow(); row++) {
+            for (int col = smallestCell.getCol(); col <= biggestCell.getCol(); col++) {
                 cells.add(get(row, col).generate(getNeighbors(row, col)));
             }
         }
@@ -56,32 +59,32 @@ public class Universe {
 
     private Collection<Cell> expandLeft() {
         Collection<Cell> cells = new HashSet<>();
-        for (int row = smallestRow; row <= biggestRow; row++) {
-            cells.add(get(row, smallestCol - 1).generate(getNeighbors(row, smallestCol - 1)));
+        for (int row = smallestCell.getRow(); row <= biggestCell.getRow(); row++) {
+            cells.add(get(row, smallestCell.getCol() - 1).generate(getNeighbors(row, smallestCell.getCol() - 1)));
         }
         return aliveCells(cells);
     }
 
     private Collection<Cell> expandRight() {
         Collection<Cell> cells = new HashSet<>();
-        for (int row = smallestRow; row <= biggestRow; row++) {
-            cells.add(get(row, biggestCol + 1).generate(getNeighbors(row, biggestCol + 1)));
+        for (int row = smallestCell.getRow(); row <= biggestCell.getRow(); row++) {
+            cells.add(get(row, biggestCell.getRow() + 1).generate(getNeighbors(row, biggestCell.getRow() + 1)));
         }
         return aliveCells(cells);
     }
 
     private Collection<Cell> expandTop() {
         Collection<Cell> cells = new HashSet<>();
-        for (int col = smallestCol; col <= biggestCol; col++) {
-            cells.add(get(smallestRow - 1, col).generate(getNeighbors(smallestRow - 1, col)));
+        for (int col = smallestCell.getCol(); col <= biggestCell.getCol(); col++) {
+            cells.add(get(smallestCell.getRow() - 1, col).generate(getNeighbors(smallestCell.getRow() - 1, col)));
         }
         return aliveCells(cells);
     }
 
     private Collection<Cell> expandBottom() {
         Collection<Cell> cells = new HashSet<>();
-        for (int col = smallestCol; col <= biggestCol; col++) {
-            cells.add(get(biggestRow + 1, col).generate(getNeighbors(biggestRow + 1, col)));
+        for (int col = smallestCell.getCol(); col <= biggestCell.getCol(); col++) {
+            cells.add(get(biggestCell.getRow() + 1, col).generate(getNeighbors(biggestCell.getRow() + 1, col)));
         }
         return aliveCells(cells);
     }
@@ -104,8 +107,8 @@ public class Universe {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int row = smallestRow; row <= biggestRow; row++) {
-            for (int col = smallestCol; col <= biggestCol; col++) {
+        for (int row = smallestCell.getRow(); row <= biggestCell.getRow(); row++) {
+            for (int col = smallestCell.getCol(); col <= biggestCell.getCol(); col++) {
                 stringBuilder.append(get(row, col));
             }
             stringBuilder.append("\n");
@@ -127,6 +130,14 @@ public class Universe {
 
     private int biggestCol() {
         return cells.stream().map(Cell::getCol).max(Comparator.naturalOrder()).get();
+    }
+
+    private Cell smallestCell() {
+        return cells.stream().min(Comparator.naturalOrder()).get();
+    }
+
+    private Cell biggestCell() {
+        return cells.stream().max(Comparator.naturalOrder()).get();
     }
 
     @Override
