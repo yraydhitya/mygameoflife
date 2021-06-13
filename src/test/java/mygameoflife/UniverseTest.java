@@ -124,4 +124,26 @@ public class UniverseTest {
         assertEquals(UniverseFixture.blinker1(), UniverseFixture.blinker2().generate());
         assertEquals(UniverseFixture.glider2(), UniverseFixture.glider1().generate());
     }
+
+    @Test
+    public void expandTopBottom() {
+        Universe expectedExpandedBlinker = Universe.of(Set.of(
+                Cell.ofDead(-1, 0), Cell.ofLive(-1, 1), Cell.ofDead(-1, 2),
+                Cell.ofDead(0, 0), Cell.ofLive(0, 1), Cell.ofDead(0, 2),
+                Cell.ofDead(1, 0), Cell.ofLive(1, 1), Cell.ofDead(1, 2)
+            ));
+
+        assertEquals(expectedExpandedBlinker, UniverseFixture.tightBlinker1().generate());
+    }
+
+    @Test
+    public void expandLeftRight() {
+        Universe expectedExpandedBlinker = Universe.of(Set.of(
+                Cell.ofDead(0, -1), Cell.ofDead(0, 0), Cell.ofDead(0, 1),
+                Cell.ofLive(1, -1), Cell.ofLive(1, 0), Cell.ofLive(1, 1),
+                Cell.ofDead(2, -1), Cell.ofDead(2, 0), Cell.ofDead(2, 1)
+            ));
+
+        assertEquals(expectedExpandedBlinker, UniverseFixture.tightBlinker2().generate());
+    }
 }

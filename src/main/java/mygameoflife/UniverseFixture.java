@@ -43,6 +43,20 @@ public class UniverseFixture {
             ));
     }
 
+    public static Universe tightBlinker1() {
+        return Universe.of(Set.of(
+                Cell.ofLive(0, 0), Cell.ofLive(0, 1), Cell.ofLive(0, 2)
+            ));
+    }
+
+    public static Universe tightBlinker2() {
+        return Universe.of(Set.of(
+                Cell.ofLive(0, 0),
+                Cell.ofLive(1, 0),
+                Cell.ofLive(2, 0)
+            ));
+    }
+
     public static Universe glider1() {
         return Universe.of(Set.of(
                 Cell.ofDead(0, 0), Cell.ofDead(0, 1), Cell.ofLive(0, 2), Cell.ofDead(0, 3),

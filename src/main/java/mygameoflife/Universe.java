@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Universe {
     private final Collection<Cell> cells;
@@ -30,22 +29,22 @@ public class Universe {
         }
 
         Collection<Cell> expandLeft = expandLeft();
-        if (!expandLeft.isEmpty()) {
+        if (hasAliveCell(expandLeft)) {
             cells.addAll(expandLeft);
         }
 
         Collection<Cell> expandRight = expandRight();
-        if (!expandRight.isEmpty()) {
+        if (hasAliveCell(expandRight)) {
             cells.addAll(expandRight);
         }
 
         Collection<Cell> expandTop = expandTop();
-        if (!expandTop.isEmpty()) {
+        if (hasAliveCell(expandTop)) {
             cells.addAll(expandTop);
         }
 
         Collection<Cell> expandBottom = expandBottom();
-        if (!expandBottom.isEmpty()) {
+        if (hasAliveCell(expandBottom)) {
             cells.addAll(expandBottom);
         }
 
@@ -57,15 +56,15 @@ public class Universe {
         for (int row = smallestCell.getRow(); row <= biggestCell.getRow(); row++) {
             cells.add(get(row, smallestCell.getCol() - 1).generate(getNeighbors(row, smallestCell.getCol() - 1)));
         }
-        return aliveCells(cells);
+        return cells;
     }
 
     private Collection<Cell> expandRight() {
         Collection<Cell> cells = new HashSet<>();
         for (int row = smallestCell.getRow(); row <= biggestCell.getRow(); row++) {
-            cells.add(get(row, biggestCell.getRow() + 1).generate(getNeighbors(row, biggestCell.getRow() + 1)));
+            cells.add(get(row, biggestCell.getCol() + 1).generate(getNeighbors(row, biggestCell.getCol() + 1)));
         }
-        return aliveCells(cells);
+        return cells;
     }
 
     private Collection<Cell> expandTop() {
@@ -73,7 +72,7 @@ public class Universe {
         for (int col = smallestCell.getCol(); col <= biggestCell.getCol(); col++) {
             cells.add(get(smallestCell.getRow() - 1, col).generate(getNeighbors(smallestCell.getRow() - 1, col)));
         }
-        return aliveCells(cells);
+        return cells;
     }
 
     private Collection<Cell> expandBottom() {
@@ -81,7 +80,7 @@ public class Universe {
         for (int col = smallestCell.getCol(); col <= biggestCell.getCol(); col++) {
             cells.add(get(biggestCell.getRow() + 1, col).generate(getNeighbors(biggestCell.getRow() + 1, col)));
         }
-        return aliveCells(cells);
+        return cells;
     }
 
     public Cell get(int row, int col) {
@@ -119,8 +118,8 @@ public class Universe {
         return cells.stream().max(Comparator.naturalOrder()).get();
     }
 
-    private Set<Cell> aliveCells(Collection<Cell> cells) {
-        return cells.stream().filter(Cell::isAlive).collect(Collectors.toSet());
+    private boolean hasAliveCell(Collection<Cell> cells) {
+        return cells.stream().anyMatch(Cell::isAlive);
     }
 
     @Override
