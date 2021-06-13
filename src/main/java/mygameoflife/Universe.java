@@ -1,6 +1,7 @@
 package mygameoflife;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -113,47 +114,19 @@ public class Universe {
     }
 
     private int smallestRow() {
-        Cell firstCell = cells.iterator().next();
-        int smallestRow = firstCell.getRow();
-        for (Cell cell : cells) {
-            if (cell.getRow() < smallestRow) {
-                smallestRow = cell.getRow();
-            }
-        }
-        return smallestRow;
+        return cells.stream().map(Cell::getRow).min(Comparator.naturalOrder()).get();
     }
 
     private int biggestRow() {
-        Cell firstCell = cells.iterator().next();
-        int biggestRow = firstCell.getRow();
-        for (Cell cell : cells) {
-            if (cell.getRow() > biggestRow) {
-                biggestRow = cell.getRow();
-            }
-        }
-        return biggestRow;
+        return cells.stream().map(Cell::getRow).max(Comparator.naturalOrder()).get();
     }
 
     private int smallestCol() {
-        Cell firstCell = cells.iterator().next();
-        int smallestCol = firstCell.getCol();
-        for (Cell cell : cells) {
-            if (cell.getCol() < smallestCol) {
-                smallestCol = cell.getCol();
-            }
-        }
-        return smallestCol;
+        return cells.stream().map(Cell::getCol).min(Comparator.naturalOrder()).get();
     }
 
     private int biggestCol() {
-        Cell firstCell = cells.iterator().next();
-        int biggestCol = firstCell.getCol();
-        for (Cell cell : cells) {
-            if (cell.getCol() > biggestCol) {
-                biggestCol = cell.getCol();
-            }
-        }
-        return biggestCol;
+        return cells.stream().map(Cell::getCol).max(Comparator.naturalOrder()).get();
     }
 
     @Override
