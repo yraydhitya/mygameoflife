@@ -3,7 +3,7 @@ package mygameoflife;
 import java.util.Collection;
 import java.util.Objects;
 
-public abstract class Cell {
+public abstract class Cell implements Comparable<Cell>{
     private final int row;
     private final int col;
 
@@ -46,6 +46,23 @@ public abstract class Cell {
 
     private boolean isCol(int col) {
         return this.col == col;
+    }
+
+    @Override
+    public int compareTo(Cell o) {
+        if (isPosition(o.row, o.col)){
+            return 0;
+        }
+
+        if (row < o.row) {
+            return -1;
+        } else {
+            if (col < o.col) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
     }
 
     @Override

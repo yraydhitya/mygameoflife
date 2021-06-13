@@ -69,4 +69,29 @@ public class CellTest {
     public void liveAndDeadCellToStringShouldNotBeEqual() {
         assertNotEquals(Cell.ofLive(0, 0).toString(), Cell.ofDead(0, 0).toString());
     }
+
+    @Test
+    public void compareToEqualPositionShouldReturnZero() {
+        assertEquals(0, Cell.ofLive(0, 0).compareTo(Cell.ofLive(0, 0)));
+    }
+
+    @Test
+    public void compareToSmallerRowShouldReturnNegativeOne() {
+        assertEquals(-1, Cell.ofLive(0, 0).compareTo(Cell.ofLive(1, 0)));
+    }
+
+    @Test
+    public void compareToBiggerRowShouldReturnPositiveOne() {
+        assertEquals(1, Cell.ofLive(0, 0).compareTo(Cell.ofLive(-1, 0)));
+    }
+
+    @Test
+    public void compareToEqualRowSmallerColShouldReturnNegativeOne() {
+        assertEquals(-1, Cell.ofLive(0, 0).compareTo(Cell.ofLive(0, 1)));
+    }
+
+    @Test
+    public void compareToEqualRowBiggerColShouldReturnPositiveOne() {
+        assertEquals(1, Cell.ofLive(0, 0).compareTo(Cell.ofLive(0, -1)));
+    }
 }
