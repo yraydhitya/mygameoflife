@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Universe {
     private final Collection<Cell> cells;
@@ -28,22 +29,22 @@ public class Universe {
             }
         }
 
-        Collection<Cell> expandLeft = expandLeft();
+        Collection<Cell> expandLeft = expandCol(smallestCell.previousCol());
         if (hasAliveCell(expandLeft)) {
             cells.addAll(expandLeft);
         }
 
-        Collection<Cell> expandRight = expandRight();
+        Collection<Cell> expandRight = expandCol(biggestCell.nextCol());
         if (hasAliveCell(expandRight)) {
             cells.addAll(expandRight);
         }
 
-        Collection<Cell> expandTop = expandTop();
+        Collection<Cell> expandTop = expandRow(smallestCell.previousRow());
         if (hasAliveCell(expandTop)) {
             cells.addAll(expandTop);
         }
 
-        Collection<Cell> expandBottom = expandBottom();
+        Collection<Cell> expandBottom = expandRow(biggestCell.nextRow());
         if (hasAliveCell(expandBottom)) {
             cells.addAll(expandBottom);
         }
@@ -51,36 +52,20 @@ public class Universe {
         return Universe.of(cells);
     }
 
-    private Collection<Cell> expandLeft() {
-        Collection<Cell> cells = new HashSet<>();
-        for (int row = smallestCell.getRow(); row <= biggestCell.getRow(); row++) {
-            cells.add(get(row, smallestCell.previousCol()).generate(getNeighbors(row, smallestCell.previousCol())));
-        }
-        return cells;
+    private Collection<Cell> expandRow(int row) {
+        return cells.stream()
+                .map(Cell::getCol)
+                .distinct()
+                .map(col -> get(row, col).generate(getNeighbors(row, col)))
+                .collect(Collectors.toSet());
     }
 
-    private Collection<Cell> expandRight() {
-        Collection<Cell> cells = new HashSet<>();
-        for (int row = smallestCell.getRow(); row <= biggestCell.getRow(); row++) {
-            cells.add(get(row, biggestCell.nextCol()).generate(getNeighbors(row, biggestCell.nextCol())));
-        }
-        return cells;
-    }
-
-    private Collection<Cell> expandTop() {
-        Collection<Cell> cells = new HashSet<>();
-        for (int col = smallestCell.getCol(); col <= biggestCell.getCol(); col++) {
-            cells.add(get(smallestCell.previousRow(), col).generate(getNeighbors(smallestCell.previousRow(), col)));
-        }
-        return cells;
-    }
-
-    private Collection<Cell> expandBottom() {
-        Collection<Cell> cells = new HashSet<>();
-        for (int col = smallestCell.getCol(); col <= biggestCell.getCol(); col++) {
-            cells.add(get(biggestCell.nextRow(), col).generate(getNeighbors(biggestCell.nextRow(), col)));
-        }
-        return cells;
+    private Collection<Cell> expandCol(int col) {
+        return cells.stream()
+                .map(Cell::getRow)
+                .distinct()
+                .map(row -> get(row, col).generate(getNeighbors(row, col)))
+                .collect(Collectors.toSet());
     }
 
     public Cell get(int row, int col) {
